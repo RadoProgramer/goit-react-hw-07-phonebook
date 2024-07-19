@@ -1,15 +1,15 @@
-import React, { useState } from "react";
-import PropTypes from "prop-types";
-import styles from "./ContactForm.module.scss";
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+import styles from './ContactForm.module.scss';
 
 const ContactForm = ({ onAddContact }) => {
-  const [name, setName] = useState("");
-  const [number, setNumber] = useState("");
-  const [numberError, setNumberError] = useState("");
+  const [name, setName] = useState('');
+  const [number, setNumber] = useState('');
+  const [numberError, setNumberError] = useState('');
 
   const handleChange = (ev) => {
     const { name, value } = ev.currentTarget;
-    if (name === "number") {
+    if (name === 'number') {
       setNumber(formatPhoneNumber(value));
       validateNumber(value);
     } else {
@@ -18,36 +18,32 @@ const ContactForm = ({ onAddContact }) => {
   };
 
   const formatPhoneNumber = (value) => {
-    const cleaned = ("" + value).replace(/\D/g, "");
-
+    const cleaned = ('' + value).replace(/\D/g, '');
     const match = cleaned.match(/^(\d{0,3})(\d{0,3})(\d{0,4})$/);
-
     if (match) {
-      return [match[1], match[2], match[3]].filter(Boolean).join("-");
+      return [match[1], match[2], match[3]].filter(Boolean).join('-');
     }
-
     return value;
   };
 
   const validateNumber = (number) => {
     const phonePattern = /^[+]?[(]?[0-9]{1,4}[)]?[-\s./0-9]*$/;
     if (!phonePattern.test(number)) {
-      setNumberError("Invalid phone number format");
+      setNumberError('Invalid phone number format');
     } else {
-      setNumberError("");
+      setNumberError('');
     }
   };
 
   const handleSubmit = (ev) => {
     ev.preventDefault();
     if (numberError) {
-      alert("Please fix the errors before submitting");
+      alert('Please fix the errors before submitting');
       return;
     }
-
     onAddContact(name, number);
-    setName("");
-    setNumber("");
+    setName('');
+    setNumber('');
   };
 
   return (
